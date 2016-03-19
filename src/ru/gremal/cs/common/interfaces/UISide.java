@@ -1,10 +1,20 @@
-import java.util.HashMap;
+package ru.gremal.cs.common.interfaces;
+
+import ru.gremal.cs.common.channel.CommunicationChannel;
+import ru.gremal.cs.common.channel.SimpleCommunicationChannel;
+import ru.gremal.cs.common.tools.InternetConnectionMessage;
+import ru.gremal.cs.common.tools.StatusSender;
+import ru.gremal.cs.common.ui.AbstractUIControl;
+
 import java.util.Map;
 
 /**
- * Created by GreMal on 07.02.2016.
+ * Программный интерфейс для связи Ядра с Пользовательским Интерфейсом.
  */
 public interface UISide {
+    // фукция запускает пользовательский интерфейс, возвращая в ядро ссылку на UISide данного UI
+    // в идеале, UI должент быть singletone
+    // public UISide createUiInstance(CoreSide core);
     /* Функция проверки связи для вызова из внешних модулей. Формирование статусной строки в GUI,
     запуск процедур активации и деактивации элементов GUI */
     public void setInternetConnectionStatuses(InternetConnectionMessage status);
@@ -53,55 +63,63 @@ public interface UISide {
     public void putNewStatusInStatusString(StatusSender sender, String status);
     // вставить новый статус в массив статусов, с указанием количества показов.
     // После указанного количества показов, статус удаляется из массива показов.
-    //public void putNewStatusInStatusString(Tools.StatusSender sender, String status, int showCount);
+    //public void putNewStatusInStatusString(CommonTools.StatusSender sender, String status, int showCount);
     // удалить статус из массива статусов
-    //public void removeStatusFromStatusString(Tools.StatusSender sender);
+    //public void removeStatusFromStatusString(CommonTools.StatusSender sender);
     public String getLocalisationValueByKey(String key);
     /* Установить максимальное количество членов круга */
     public void setMaxCompanyCount(int MaxCompanyCount);
     /* Установить максимальное количество символов в заметке */
     public void setMaxCharsInNote(int maxChars);
     /* Получить команду на закрытие приложения*/
-    public boolean isCloseWindowCommand();
+    //public boolean isCloseWindowCommand();
     /* Получить карту данных для сохранения в общем ini-файле программы */
-    public Map<String, String> getIniDataMap();
+    //public Map<String, String> getIniDataMap();
     /* Скопировать ini-данные UI из общей ini-карты. То есть,
     на вход этой функции поступает ini-карта программы ПОЛНОСТЬЮ, со всеми данными
      */
-    public void setIniDataMap(Map<String, String> iniMap);
+    //public void setIniDataMap(Map<String, String> iniMap);
     // Поставить UI на паузу или снять с паузы
-    public void setUIPaused(boolean status);
+    // public void setUIPaused(boolean status);
     // установить статус изменения в поле заметки
-    public void setIsNoteWasChanged(boolean status);
+    //public SimpleCommunicationChannel getNoteWasChangedChannal();
+    // public void setIsNoteWasChanged(boolean status);
     // Получить статус изменений в поле заметки (было / небыло)
-    public boolean getIsNoteWasChanged();
+    // public boolean getIsNoteWasChanged();
     // установить статус изменения в поле заметки
-    public void setIsDeviceLabelWasChanged(boolean status);
+    //public SimpleCommunicationChannel getDeviceLabelWasChangedChannal();
+    // public void setIsDeviceLabelWasChanged(boolean status);
     // Получить статус изменений в поле заметки (было / небыло)
-    public boolean getIsDeveceLabelWasChanged();
+    // public boolean getIsDeveceLabelWasChanged();
     // получить команду "проснуться" для нити проверки связи с облаком
-    public boolean getJerkThreadWakeUpCommand();
-    // Нажата ли кнопка входа в круг?
-    public boolean isEnterToCircleButtonPressed();
+    //public boolean getJerkThreadWakeUpCommand();
+    //public SimpleCommunicationChannel getJerkThreadWakeUpCommandChannal();
+    // Получить канал "Нажатие кнопки входа в круг"
+    //public SimpleCommunicationChannel getEnterToCircleButtonPressedChannal();
+    // public boolean isEnterToCircleButtonPressed();
     // Core отработало нажатие кнопки входа в круг
-    public void CoreOK_EnterToCircleButtonPressed();
+    // public void CoreOK_EnterToCircleButtonPressed();
     // Нажата ли кнопка "Синхронизировать"
-    public boolean isStartSynchronizationCommand();
+    //public boolean isStartSynchronizationCommand();
     // Core отработало запрос на синхронизацию
-    public void CoreOK_StartSynchronizationCommand();
+    //public void CoreOK_StartSynchronizationCommand();
+    // Получить ссылку на канал "Нажата кнопка синхронизации"
+    //public SimpleCommunicationChannel getStartSynchronizationButtonPressedChannal();
     // Нажата ли кнопка "Пригласить/Выгнать"
     // public boolean isInviteOrKickButtonPressed();
     /* Если возвращает null, но кнопка Пригласить/Выгнать НЕ нажата.
     В ином случае, функция возвращает интерфейс нажатой кнопки. */
-    public AbstractUIControl InviteOrKickButtonPressed();
+    // public AbstractUIControl InviteOrKickButtonPressed();
     // Core отработало нажатие клавиши Пригласить/Выгнать
-    public void CoreOK_InviteOrKickButtonPressed();
-    public void setCoreVersion(float ver);
+    // public void CoreOK_InviteOrKickButtonPressed();
+    //public SimpleCommunicationChannel getInviteOrKickButtonPressedChannal();
+    //public void setCoreVersion(float ver);
     /* Передать в UI массив со ссылками на занятые текстовые поля членов круга */
     //public void setBusyTextFields(AbstractUIControl[] busyFields);
     // Получить запрос на выдачу массива со ссылками на знятые текстовые поля
-    //public boolean getBusyFieldsCommand();\
-    // Если CommunicationChannal == null, то действия не требуются. Если CommunicationChannal != null, то действия требуются
-    // То есть, отдельный флаг-команда на исполнение не требуются
-    public CommunicationChannal isSetBusyFieldsCommandActive();
+    //public boolean getBusyFieldsCommand();
+    // Получить ссылку на объект "Массив занятых текстовых полей с названиями членов круга"
+    //public CommunicationChannel getBusyTextFieldsCommandChannal();
+    // Получить ссылку на объект "Core разрешает закрыть UI"
+    //public SimpleCommunicationChannel getCloseWindowCommandAgreeChannal();
 }

@@ -1,3 +1,5 @@
+package ru.gremal.cs.common.tools;
+
 /**
  * статусные сообщения проверки связи
  */

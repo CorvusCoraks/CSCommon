@@ -1,3 +1,5 @@
+package ru.gremal.cs.common.tools;
+
 /**
  * Created by GreMal on 14.02.2016.
  */
